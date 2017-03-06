@@ -1,42 +1,36 @@
-// console.log(process)
-// console.log(Object.keys(process))
+// import
+var commands = require("./commands");
+var done = function(output) {
+  process.stdout.write(output);
+  process.stdout.write('\nprompt > ');
+}
 
 // Output a prompt
 process.stdout.write('prompt > ');
 
 // The stdin 'data' event fires after a user types in a line
 process.stdin.on('data', function (data) {
-  var cmd = data.toString().trim(); // remove the newline
-
-  if (cmd === 'pwd') {
-    process.stdout.write(process.cwd() + '\n')
+  var cmdArr = data.toString().trim().split(' '); // remove the newline
+  var cmd = cmdArr[0]
+  var file = cmdArr.slice(1);
+  if(commands[cmd]){
+    commands[cmd](file, done);
   }
-
-  if (cmd === 'date') {
-    var currentDate = new Date()
-    process.stdout.write(currentDate.toString() + '\n')
+  else{
+    commands.notValid(file, done);
   }
-
-  process.stdout.write('You typed: ' + cmd);
-  process.stdout.write('\nprompt > ');
 
 });
 
-//
 
-// console.log(process.argv)
 
-// function pwd() {
-//   var fileLocation = this.argv[1]
-//   console.log(fileLocation)
+// console.log(`Starting directory: ${process.cwd()}`);
+// try {
+//   process.chdir('/tmp');
+//   console.log(`New directory: ${process.cwd()}`);
 // }
-
-// this.pwd = function() {
-
+// catch (err) {
+//   console.log(`chdir: ${err}`);
 // }
-
-// console.log(process.cwd())
-
-// process.pwd = function() {
-//   return process.cwd()
-// }
+// var date = new Date();
+// console.log(date);
