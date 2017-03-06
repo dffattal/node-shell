@@ -22,9 +22,6 @@ process.stdin.on('data', function (data) {
 
 
 
-
-
-
 // console.log(`Starting directory: ${process.cwd()}`);
 // try {
 //   process.chdir('/tmp');
