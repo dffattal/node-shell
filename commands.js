@@ -58,14 +58,14 @@ exports.head = function(file, done) {
         var lineCutoff = 0
         var endOfFile = false
         for(var i = 0; i < data.length; i++) {
-          console.log("char at " + i + " is: " + data[i])
+          // console.log("char at " + i + " is: " + data[i])
           if (lineCutoff >= 10) {
             output += data.slice(0, i)
             endOfFile = true
             break;
           }
           if (data[i] === 10) {
-            console.log('in if')
+            // console.log('in if')
             lineCutoff++
           }
         }
@@ -74,4 +74,43 @@ exports.head = function(file, done) {
         }
         done(output.slice(0, output.length - 1))
     })
+}
+
+exports.tail = function(file, done) {
+    var output = ""
+    fs.readFile(file[0], function(err, data) {
+        if (err) throw err
+        // output += data
+        var lineCutoff = 0
+        var endOfFile = false
+        for(var i = data.length - 1; i > 0; i--) {
+          // console.log("char at " + i + " is: " + data[i])
+          if (lineCutoff >= 5) {
+            output += data.slice(i + 1)
+            endOfFile = true
+            break;
+          }
+          if (data[i] === 10) {
+            // console.log('in if')
+            lineCutoff++
+          }
+        }
+        if (!endOfFile) {
+          output += data
+        }
+        done(output.slice(1))
+    })
+}
+
+exports.wc = function(file, done) {
+  var output = 1
+  fs.readFile(file[0], function(err, data) {
+    if (err) throw err
+    for (var i = 0; i < data.length; i++) {
+      if (data[i] === 10) {
+        output++
+      }
+    }
+    done(output + '')
+  })
 }
